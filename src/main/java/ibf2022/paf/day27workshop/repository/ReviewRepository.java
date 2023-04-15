@@ -24,7 +24,11 @@ public class ReviewRepository {
         query.addCriteria(Criteria.where("gid").is(review.getId()));
         Game game = template.findOne(query, Game.class, "games");
         review.setPosted(LocalDateTime.now());
-        review.setName(game.getName());
+        if (game != null) {
+            review.setName(game.getName());
+        } else {
+            return null;
+        }
         Document toInsert = new Document();
         toInsert.put("user", review.getUser());
         toInsert.put("rating", review.getRating());

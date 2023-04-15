@@ -29,6 +29,12 @@ public class ReviewRESTController {
         // newReview.setRating(review.getRating());
         // newReview.setComment(review.getComment());
         newReview = repository.addNewReview(review);
+        if (newReview == null) {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"error\": \"game " + review.getId() + " not found\"}");
+        }
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(newReview.toJson().toString());
     }
