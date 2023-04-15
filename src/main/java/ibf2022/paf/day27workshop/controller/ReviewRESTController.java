@@ -24,11 +24,7 @@ public class ReviewRESTController {
 
     @PostMapping(path = "/review", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<String> addNewReview(@ModelAttribute Review review) {
-        Review newReview = new Review();
-        // newReview.setName(review.getUser());
-        // newReview.setRating(review.getRating());
-        // newReview.setComment(review.getComment());
-        newReview = repository.addNewReview(review);
+        Review newReview = repository.addNewReview(review);
         if (newReview == null) {
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
