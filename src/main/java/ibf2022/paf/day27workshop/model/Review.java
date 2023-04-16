@@ -1,7 +1,6 @@
 package ibf2022.paf.day27workshop.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
