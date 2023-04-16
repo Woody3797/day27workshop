@@ -1,6 +1,7 @@
 package ibf2022.paf.day27workshop.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -21,8 +22,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(String user, Double rating, String comment, Integer id, LocalDateTime posted, String name,
-            List<String> edited) {
+    public Review(String user, Double rating, String comment, Integer id, LocalDateTime posted, String name, List<String> edited) {
         this.user = user;
         this.rating = rating;
         this.comment = comment;
@@ -87,7 +87,10 @@ public class Review {
         review.setId(doc.getInteger("id"));
         review.setName(doc.getString("name"));
         review.setPosted(LocalDateTime.now());
-
+        review.setUser(doc.getString("user"));
+        review.setRating(doc.getDouble("rating"));
+        review.setComment(doc.getString("comment"));
+        review.setEdited(doc.getList("edited", String.class, null));
         return review;
     }
 
