@@ -57,7 +57,8 @@ public class ReviewRepository {
 
     public Review getExistingReview(String id) {
         Query query = Query.query(Criteria.where("_id").is(id));
-        Review existingReview = template.findOne(query, Review.class, "reviews");
+        Document doc = template.findOne(query, Document.class, "reviews");
+        Review existingReview = Review.create(doc);
         
         return existingReview != null ? existingReview : null;
     }
