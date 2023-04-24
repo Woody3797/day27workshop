@@ -32,15 +32,17 @@ public class ReviewRESTController {
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body("{\"error\": \"game " + review.getId() + " not found\"}");
+                .body("{\"error\": \"game " + review.getGid() + " not found\"}");
         }
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(newReview.toJson().toString());
     }
 
+    
     @PutMapping(path = "/review/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateExistingReview(@PathVariable("id") String id, @RequestBody Review review) {
         Review existingReview = repository.getExistingReview(id);
+        review.setCid(id);
         if (existingReview != null) {
             existingReview.setRating(review.getRating());
             existingReview.setComment(review.getComment());

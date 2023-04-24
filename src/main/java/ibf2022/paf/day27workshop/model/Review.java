@@ -1,6 +1,7 @@
 package ibf2022.paf.day27workshop.model;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bson.Document;
@@ -8,58 +9,42 @@ import org.bson.Document;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 
-public class Review {
+public class Review extends EditedComment {
     
+    private String cid;
     private String user;
-    private Double rating;
-    private String comment;
-    private Integer id;
-    private LocalDateTime posted;
+    private Integer gid;
     private String name;
-    private List<String> edited;
+    private List<EditedComment> ec = new LinkedList<>();
     
     public Review() {
     }
 
-    public Review(String user, Double rating, String comment, Integer id, LocalDateTime posted, String name, List<String> edited) {
+    public Review(String cid, String user, Integer rating, String comment, Integer gid, LocalDateTime posted,
+            String name) {
+        this.cid = cid;
         this.user = user;
-        this.rating = rating;
-        this.comment = comment;
-        this.id = id;
-        this.posted = posted;
+        this.gid = gid;
         this.name = name;
-        this.edited = edited;
     }
 
+    public String getCid() {
+        return cid;
+    }
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
     public String getUser() {
         return user;
     }
     public void setUser(String user) {
         this.user = user;
     }
-    public Double getRating() {
-        return rating;
+    public Integer getGid() {
+        return gid;
     }
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-    public String getComment() {
-        return comment;
-    }
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public LocalDateTime getPosted() {
-        return posted;
-    }
-    public void setPosted(LocalDateTime posted) {
-        this.posted = posted;
+    public void setGid(Integer gid) {
+        this.gid = gid;
     }
     public String getName() {
         return name;
@@ -67,29 +52,17 @@ public class Review {
     public void setName(String name) {
         this.name = name;
     }
-    public List<String> getEdited() {
-        return edited;
-    }
-    public void setEdited(List<String> edited) {
-        this.edited = edited;
-    }
-
-    @Override
-    public String toString() {
-        return "Review [user=" + user + ", rating=" + rating + ", comment=" + comment + ", id=" + id + ", posted="
-                + posted + ", name=" + name + ", edited=" + edited + "]";
-    }
-
+    
 
     public static Review create(Document doc) {
         Review review = new Review();
-        review.setId(doc.getInteger("id"));
+        review.setGid(doc.getInteger("gid"));
         review.setName(doc.getString("name"));
         review.setPosted(LocalDateTime.now());
         review.setUser(doc.getString("user"));
-        review.setRating(doc.getDouble("rating"));
-        review.setComment(doc.getString("comment"));
-        review.setEdited(doc.getList("edited", String.class, null));
+        review.setRating(doc.getInteger("rating"));
+        review.setComment(doc.getString("c_text"));
+        review.setCid(doc.getString("c_id"));
         return review;
     }
 
@@ -97,12 +70,12 @@ public class Review {
         return Json.createObjectBuilder()
         .add("user", getUser())
         .add("rating", getRating())
-        .add("comment", getComment())
-        .add("id", getId())
+        .add("c_text", getComment())
+        .add("gid", getGid())
         .add("posted", getPosted().toString())
         .add("name", getName())
+        .add("cid", getCid())
         .build();
     }
-    
 
 }

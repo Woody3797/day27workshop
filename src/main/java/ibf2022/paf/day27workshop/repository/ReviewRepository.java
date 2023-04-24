@@ -24,7 +24,7 @@ public class ReviewRepository {
 
     public Review addNewReview(Review review) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("gid").is(review.getId()));
+        query.addCriteria(Criteria.where("gid").is(review.getGid()));
         Game game = template.findOne(query, Game.class, "games");
         review.setPosted(LocalDateTime.now());
         if (game != null) {
@@ -36,7 +36,7 @@ public class ReviewRepository {
         toInsert.put("user", review.getUser());
         toInsert.put("rating", review.getRating());
         toInsert.put("comment", review.getComment());
-        toInsert.put("id", review.getId());
+        toInsert.put("gid", review.getGid());
         toInsert.put("posted", review.getPosted());
         toInsert.put("name", review.getName());
         Document newDoc = template.insert(toInsert, "reviews");
@@ -47,9 +47,10 @@ public class ReviewRepository {
 
     public long updateExistingReview(Review review) {
         Query query = Query.query(Criteria.where("_id").is(ObjectId.get()));
-        Update updateOps = new Update().set("rating", review.getRating())
-        .set("comments", review.getComment());
-        UpdateResult result = template.updateFirst(query, updateOps, Document.class, "comments");
+        Update updateOps = new Update()
+            .set("rating", review.getRating())
+            .set("edited", review.getComment());
+        UpdateResult result = template.updateFirst(query, updateOps, Document.class, "reviews");
         return result.getModifiedCount();
     }
 

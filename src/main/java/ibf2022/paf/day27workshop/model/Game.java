@@ -1,11 +1,13 @@
 package ibf2022.paf.day27workshop.model;
 
+import java.io.Serializable;
+
 import org.bson.Document;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 
-public class Game {
+public class Game implements Serializable {
     
     private Integer gid;
     private String name;
