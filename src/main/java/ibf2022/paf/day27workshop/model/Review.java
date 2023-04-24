@@ -52,6 +52,12 @@ public class Review extends EditedComment {
     public void setName(String name) {
         this.name = name;
     }
+    public List<EditedComment> getEc() {
+        return ec;
+    }
+    public void setEc(List<EditedComment> ec) {
+        this.ec = ec;
+    }
     
 
     public static Review create(Document doc) {
